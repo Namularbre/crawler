@@ -39,7 +39,7 @@ class DBManager:
         data = await self.mongo_client[self.__DB_NAME][self.__DB_WEB_PAGES_COLLECTION].find_one(
             {'$and': [
                 {'url': url},
-                {'createdAt': {'$ne': today}}
+                {'createdAt': {'$ne': str(today)}}
             ]})
         return data != {}
 
