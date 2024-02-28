@@ -13,7 +13,7 @@ class WebPage:
             'url': self.url,
             'text': self.content,
             'blacklisted': self.blacklisted,
-            'createdAt': self.created_at
+            'createAt': str(self.created_at)
         }
 
     def __str__(self) -> str:
@@ -24,8 +24,8 @@ class WebPage:
             return hash(self) == hash(other)
         return False
 
-    def __key(self) -> tuple[str, str, bool]:
-        return self.url, self.content, self.blacklisted
+    def __key(self) -> tuple[str, str, bool, date]:
+        return self.url, self.content, self.blacklisted, self.created_at
 
     def __hash__(self) -> int:
         return hash(self.__key())
