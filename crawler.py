@@ -1,3 +1,4 @@
+from asyncio import sleep
 from typing import Set
 
 import aiohttp
@@ -28,7 +29,10 @@ class Crawler:
 
     async def explore_url(self, session: aiohttp.ClientSession, url: str) -> Set[str]:
         if await self.url_is_valid(session, url):
-            html: str | None = await get(url, session)
+            try:
+                html: str | None = await get(url, session)
+            except Exception:
+                html = None
 
             if html is not None:
                 soup = BeautifulSoup(html, 'html.parser')
