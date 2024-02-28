@@ -1,6 +1,6 @@
 from asyncio import TimeoutError
 from aiohttp import ClientSession, ClientError, ClientConnectionError, ServerDisconnectedError
-from aiohttp.client_exceptions import ClientConnectorCertificateError
+from aiohttp.client_exceptions import ClientConnectorCertificateError, ClientConnectorError
 
 
 def is_https(url: str) -> bool:
@@ -18,20 +18,12 @@ async def get(url: str, session: ClientSession) -> str | None:
             except UnicodeDecodeError as e:
                 print(e)
                 return None
-            except ClientConnectionError as e:
+            except (ClientConnectionError, ClientError, TimeoutError,
+                    ClientConnectorCertificateError, ServerDisconnectedError, ClientConnectorError) as e:
                 print(e)
                 return None
-            except ClientError as e:
-                print(e)
-                return None
-            except TimeoutError as e:
-                print(e)
-                return None
-            except ClientConnectorCertificateError as e:
-                print(e)
-                return None
-            except ServerDisconnectedError as e:
-                print(e)
+            except Exception as e:
+                print(f"Unexpected error: {e}")
                 return None
     else:
         return None
